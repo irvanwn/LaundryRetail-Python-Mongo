@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.webix.com/edge/webix.css" type="text/css"/>
+    <script src="https://cdn.webix.com/edge/webix.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="//cdn.webix.com/materialdesignicons/5.8.95/css/materialdesignicons.min.css" type="text/css" charset="utf-8">
+
+    <link type="text/css" href="http://cdn.webix.com/components/sidebar/sidebar.css">
+    <script type="text/css" href="http://cdn.webix.com/components/sidebar/sidebar.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <span>Laundry In</span>
+        <div class="header-buttons">
+            <a href="http://localhost:8080/" class="btn-header"><button>Dashboard</button></a>
+            <a href="http://localhost:8080/setting" class="btn-header"><button>Setting</button></a>
+        </div>
+    </header>
+    
+    <div id="app"></div>
+    <script type="text/javascript" charset="utf-8">
+        function loadHarga() {
+            webix.ajax().get("/get-price", function(text, data) {
+                var prices = data.json();
+                if (prices) {
+                    $$("mygridsetting").parse(prices);
+                } else {
+                    webix.message({ type: "error", text: "Error loading data" });
+                }
+            });
+        }
+
+        window.onload = loadHarga;
+
+        var tampilan = webix.ui({
+            container: "app",
+            id: "myApp",
+            height: 900,
+            paddingY:10,
+            cols: [
+                {
+                    view: "form",
+                    gravity: 0.4,
+                    paddingY:100,
+                    id: "myformsetting",
+                    elements: [
+                        { view: "text", id: "paket", label: "Paket", name: "paket" },
+                        { view: "text", id: "Harga", label: "Harga", name: "Harga", type: "number" },
+                        {cols:[
+                            { view: "button", id: "btnClear", value: "Clear", css: ""},
+                            { view: "button", id: "btnEditHarga", value: "Update", css: "webix_primary" },
+                        ]}
+                    ]
+                },
+                {
+                    view: "datatable",
+                    id: "mygridsetting",
+                    gravity: 0.6,
+                    columns: [
+                        { id: "paket", header: "Paket", fillspace: 1 },
+                        { id: "Harga", header: "Harga", fillspace: 1 ,template: function(obj) {
+                            return webix.Number.format(obj.Harga, { group: true, groupSize: 3, decimalSize: 0 ,groupDelimiter: ","});
+                        }},
+                    ],
+                    data: [],
+                    on: {
+                      onItemDblClick: function (param , paket, e, trg) {
+                        console.log(param);
+                        var item = $$("mygridsetting").getItem(param.row);
+                        $$("myformsetting").setValues({
+                            paket: item.paket || "",
+                            Harga: item.Harga || "",
+                        });
+                        webix.message("Merubah paket" + item.paket);
+                      }
+                    }
+                  
+                  
+                }
+            ]
+        });
+
+        webix.ready(function () {
+            let isTotalCalculated = false;
+    
+            $$("btnClear").attachEvent("onItemClick", function () {
+              $$("myformsetting").clear();
+              $$("myformsetting").setValues({ paket: "", harga : null});
+            });
+            $$("btnEditHarga").attachEvent("onItemClick", function () {
+                var formValues = $$("myformsetting").getValues();
+               
+                if(!formValues.paket ){webix.message({ type: "error", text: ` form paket kosong` }); return;}
+
+                formValues.Harga = parseInt(formValues.Harga);
+                if(!formValues.Harga || formValues.Harga <= 0){webix.message({ type: "error", text: ` form harga tidak valid` }); return;}
+                webix.confirm({
+                    title: "Update Confirmation",
+                    text: `Apakah Anda yakin ingin mengubah paket ${formValues.paket}?`,
+                    callback: function (result) {
+                        if (result) {
+                            webix.ajax().headers({"Content-Type": "application/json"}).put("/edit-price/" + formValues.paket, formValues, function (text, data) {
+                                if (data.json().status === "success") {
+                                    console.log("Data updated in MongoDB:", formValues.paket);
+                                    $$("myformsetting").clear();
+                                    location.reload();
+                                } else {
+                                    webix.message({ type: "error", text: "Error updating data in MongoDB" });
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+            
+              
+          
+    
+          
+          
+          });
+    </script>
+</body>
+</html>

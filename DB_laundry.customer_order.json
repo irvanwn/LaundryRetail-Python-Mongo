@@ -1,0 +1,252 @@
+[{
+  "_id": {
+    "$oid": "66542aa51e8de84226cb96db"
+  },
+  "nama": "bake",
+  "berat": 4.7,
+  "alamat": "Kemiri 11 kos mimosa",
+  "kontak": "088765432123",
+  "total": 23500,
+  "paket": "3 Hari",
+  "layanan": "antar",
+  "id": 1438,
+  "tanggal": "2024-05-26 18:04:22"
+},
+{
+  "_id": {
+    "$oid": "66542cd1f5741d05942119bc"
+  },
+  "nama": "yanto",
+  "berat": 12.1,
+  "alamat": "",
+  "kontak": "081322473264",
+  "total": 60500,
+  "paket": "3 Hari",
+  "layanan": "ambil",
+  "id": 1439,
+  "tanggal": "2024-05-26 18:10:40"
+},
+{
+  "_id": {
+    "$oid": "665430a1f5741d05942119c2"
+  },
+  "nama": "siregar",
+  "berat": 6,
+  "alamat": "",
+  "kontak": "082134778899",
+  "total": 72000,
+  "paket": "6 Jam",
+  "layanan": "ambil",
+  "id": 1440,
+  "tanggal": "2024-05-27 18:11:22"
+},
+{
+  "_id": {
+    "$oid": "665433c0f5741d05942119c5"
+  },
+  "nama": "Lutfi",
+  "berat": 1.3,
+  "alamat": "",
+  "kontak": "084455667788",
+  "total": 6500,
+  "paket": "3 Hari",
+  "layanan": "ambil",
+  "id": 1441,
+  "tanggal": "2024-05-27 18:12:01"
+},
+{
+  "_id": {
+    "$oid": "66545056f5741d05942119c7"
+  },
+  "nama": "Andre",
+  "berat": 2.1,
+  "alamat": "",
+  "kontak": "083342577238",
+  "total": 10500,
+  "paket": "3 Hari",
+  "layanan": "ambil",
+  "id": 1442,
+  "tanggal": "2024-05-27 19:01:07"
+},
+{
+  "_id": {
+    "$oid": "66547086608e01ceac194c17"
+  },
+  "nama": "Anji",
+  "berat": 2.3,
+  "alamat": "",
+  "kontak": "088806542481",
+  "total": 11500,
+  "paket": "3 Hari",
+  "layanan": "ambil",
+  "id": 1443,
+  "tanggal": "2024-05-27 19:33:53"
+},
+{
+  "_id": {
+    "$oid": "665474e7608e01ceac194c18"
+  },
+  "id": 1444,
+  "nama": "Budi",
+  "berat": 1.333,
+  "alamat": "",
+  "kontak": "083477324567",
+  "total": 9400,
+  "paket": "2 Hari",
+  "layanan": "ambil",
+  "tanggal": "2024-05-27 19:51:33"
+},
+{
+  "_id": {
+    "$oid": "665488da608e01ceac194c1b"
+  },
+  "nama": "dina",
+  "berat": 7.8,
+  "tanggal": "2024-05-27 20:20:57",
+  "alamat": "",
+  "kontak": "081234875839",
+  "total": 39000,
+  "paket": "3 Hari",
+  "layanan": "ambil",
+  "id": 1445
+},
+{
+  "_id": {
+    "$oid": "66548ad2608e01ceac194c1c"
+  },
+  "nama": "andrea",
+  "berat": 12,
+  "tanggal": "2024-05-27 20:27:40",
+  "alamat": "Jalan Diponegoro 17",
+  "kontak": "081244998822",
+  "total": 60000,
+  "paket": "3 Hari",
+  "layanan": "antar",
+  "id": 1446
+},
+{
+  "_id": {
+    "$oid": "66548cbb608e01ceac194c1d"
+  },
+  "nama": "Y",
+  "berat": 3.2,
+  "tanggal": "2024-05-27 20:48:00",
+  "alamat": "",
+  "kontak": "",
+  "total": 3200,
+  "paket": "3 Hari",
+  "layanan": "ambil",
+  "id": 1447
+},
+{
+  "_id": {
+    "$oid": "66549c5b608e01ceac194c2f"
+  },
+  "nama": "restu",
+  "berat": 1.8,
+  "tanggal": "2024-05-27 21:44:31",
+  "alamat": "",
+  "kontak": "085572378232",
+  "total": 9000,
+  "paket": "3 Hari",
+  "layanan": "ambil",
+  "id": 1448
+},
+{
+  "_id": {
+    "$oid": "66549d2a608e01ceac194c30"
+  },
+  "nama": "benda",
+  "berat": 7.4,
+  "tanggal": "2024-05-27 21:47:58",
+  "alamat": "",
+  "kontak": "083421738812",
+  "total": 37000,
+  "paket": "3 Hari",
+  "layanan": "ambil",
+  "id": 1449
+},
+{
+  "_id": {
+    "$oid": "6654a1b8608e01ceac194c31"
+  },
+  "nama": "Yanti",
+  "berat": 1.1,
+  "tanggal": "2024-05-27 22:07:28",
+  "alamat": "",
+  "kontak": "",
+  "total": 5500,
+  "paket": "3 Hari",
+  "layanan": "ambil",
+  "id": 1450
+},
+{
+  "_id": {
+    "$oid": "6654d1c2515b75dc090a2c70"
+  },
+  "id": 1451,
+  "nama": "shane",
+  "berat": 4,
+  "tanggal": "2024-05-28 01:32:24",
+  "alamat": "Jalan Notohamidjojo",
+  "kontak": "081572338899",
+  "total": 20000,
+  "paket": "3 Hari",
+  "layanan": "antar"
+},
+{
+  "_id": {
+    "$oid": "6654e680a5924b53c95a81b5"
+  },
+  "nama": "daniel",
+  "berat": 2.2,
+  "tanggal": "2024-05-28 03:00:56",
+  "alamat": "",
+  "kontak": "083973124562",
+  "total": 11000,
+  "paket": "3 Hari",
+  "layanan": "ambil",
+  "id": 1452
+},
+{
+  "_id": {
+    "$oid": "665551d8c88d01ca071f5f6f"
+  },
+  "nama": "Dono",
+  "berat": 2.312,
+  "tanggal": "2024-05-28 10:36:50",
+  "alamat": "",
+  "kontak": "",
+  "total": 16184,
+  "paket": "2 Hari",
+  "layanan": "ambil",
+  "id": 1453
+},
+{
+  "_id": {
+    "$oid": "66556b933195320672e5a930"
+  },
+  "nama": "Yanto",
+  "berat": 3.2,
+  "tanggal": "2024-05-28 12:28:19",
+  "alamat": "",
+  "kontak": "082133445566",
+  "total": 28800,
+  "paket": "1 Hari",
+  "layanan": "ambil",
+  "id": 1454
+},
+{
+  "_id": {
+    "$oid": "66557b345758315e02aac11e"
+  },
+  "nama": "irvan",
+  "berat": 2.123,
+  "tanggal": "2024-05-28 13:35:32",
+  "alamat": "jensud",
+  "kontak": "082122334455",
+  "total": 14900,
+  "paket": "2 Hari",
+  "layanan": "antar",
+  "id": 1455
+}]

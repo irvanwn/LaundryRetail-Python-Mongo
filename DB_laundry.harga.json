@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "665314cda1b6638e7a4057b1"
+  },
+  "paket": "3 Hari",
+  "Harga": 1000
+},
+{
+  "_id": {
+    "$oid": "665314d3a1b6638e7a4057b3"
+  },
+  "paket": "2 Hari",
+  "Harga": 7000
+},
+{
+  "_id": {
+    "$oid": "665314dba1b6638e7a4057b5"
+  },
+  "paket": "1 Hari",
+  "Harga": 9000
+},
+{
+  "_id": {
+    "$oid": "665314efa1b6638e7a4057b7"
+  },
+  "paket": "6 Jam",
+  "Harga": 12000
+},
+{
+  "_id": {
+    "$oid": "6654b373888394c21051e293"
+  },
+  "paket": "Pembulatan",
+  "Harga": 1
+}]

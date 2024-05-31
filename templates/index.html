@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.webix.com/edge/webix.css" type="text/css"/>
+    <script src="https://cdn.webix.com/edge/webix.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="//cdn.webix.com/materialdesignicons/5.8.95/css/materialdesignicons.min.css" type="text/css" charset="utf-8">
+
+    <link type="text/css" href="http://cdn.webix.com/components/sidebar/sidebar.css">
+    <script type="text/css" href="http://cdn.webix.com/components/sidebar/sidebar.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head> 
+  <body>
+
+    <header>
+        <span>Laundry In</span>
+        <div class="header-buttons">
+            <a href="http://localhost:8080/" class="btn-header"><button>Dashboard</button></a>
+            <a href="http://localhost:8080/setting" class="btn-header"><button>Setting</button></a>
+        </div>
+    </header>
+    <div id="app"></div>
+    <script type="text/javascript" charset="utf-8">
+      var tampilan = webix.ui({
+        container: "app",
+        id: "myApp",
+        height: 900,
+        paddingY:10,
+        cols: [
+            {
+                view: "form",
+                gravity: 0.3,
+                paddingY:100,
+                id: "myform",
+                elements: [
+                    { view: "text", id: "nama", label: "Nama", name: "nama" },
+                    { view: "text", id: "berat", label: "Berat", name: "berat", type: "number" },
+                    { view: "select", id: "paket", label: "Paket", options: ["3 Hari", "2 Hari", "1 Hari", "6 Jam"] },
+                    {cols: [
+                        { view: "datepicker", id: "tanggal", label: "Tanggal", name: "tanggal", format: "%Y-%m-%d", value: new Date() },
+                        { view: "datepicker", type:"tanggal", id: "waktu", label: "waktu", name: "waktu", format: "%H:%i", css: {"margin-left":"10px"},value: new Date() ,
+                        suggest:{
+                          type:"timeboard",
+                          body:{
+                              button:true
+                          }
+                        }},
+                      ]
+                    },
+
+                    { view: "select", id: "layanan", label: "Layanan", options: ["ambil", "antar"],
+                        on: {
+                            onChange: function (newValue) {
+                                if (newValue == "ambil") {
+                                    $$("alamat").disable();
+                                } else {
+                                    $$("alamat").enable();
+                                }
+                            }
+                        }
+                    },
+                    { view: "text", id: "alamat", label: "Alamat", name: "alamat" ,disabled : true},
+                    { view: "text", id: "kontak", label: "Kontak", name: "kontak", type: "number" },
+                    { view: "text", id: "total", label: "Total", name: "total", type: "number",disabled: true, },
+                    { view: "button", id: "btnAddData", value: "Add", css: "webix_primary" },
+                    { view: "button", id: "btnEditData", value: "Update", css:{"background-color": "yellow; border: 0px" }},
+                    {
+                        cols: [
+                            { view: "button", id: "btnClear", value: "Clear", css: ""},
+                            { view: "button", id: "btnTotal", value: "Total", css: ""}
+                        ],
+                    }
+                ]
+            },
+            {
+                view: "datatable",
+                id: "mygrid",
+                gravity: 0.7,
+                paddingY: 1,
+                scheme: {
+                  $sort: {
+                      by: "tanggal", dir: "desc"
+                  }
+                },
+                columns: [
+                    { id: "id", header: "ID", fillspace: 1 },
+                    { id: "nama", header: "Nama", fillspace: 2 },
+                    { id: "berat", header: "Berat", fillspace: 1 },
+                    { id: "paket", header: "Paket", fillspace: 1 },
+                    { id: "tanggal", header: "Datetime", fillspace: 3 },
+                    { id: "layanan", header: "Layanan", fillspace: 1 },
+                    { id: "alamat", header: "Alamat", fillspace: 5 },
+                    { id: "kontak", header: "Kontak", fillspace: 2 },
+                    { id: "total", header: "Total", fillspace: 1, template: function(obj) {
+                      return webix.Number.format(obj.total, { group: true, groupSize: 3, decimalSize: 0 ,groupDelimiter: ","});
+                    }},
+                    {header: "Act", template: "<input class='delbtn' type='button' value='Del'>", fillspace: 0.8}
+                ],
+                data: [],
+                on: {
+                  onItemDblClick: function (param) {
+                    console.log(param);
+                    var item = $$("mygrid").getItem(param.row);
+                    $$("myform").setValues({
+                        id: item.id || "",
+                        nama: item.nama || "",
+                        berat: item.berat || 0,
+                        paket: item.paket || "3 Hari",
+                        tanggal: item.tanggal ? new Date(item.tanggal) : new Date(),
+                        waktu: item.tanggal ? new Date(item.tanggal) : new Date(),
+                        layanan: item.layanan || "ambil",
+                        alamat: item.alamat || "",
+                        kontak: item.kontak || "",
+                        total: item.total || 0
+                    });
+
+                    $$("paket").setValue(item.paket);
+                    $$("layanan").setValue(item.layanan);
+
+                    if (item.layanan === "ambil") {
+                        $$("alamat").disable();
+                    } else {
+                        $$("alamat").enable();
+                    }
+                
+                    $$("btnEditData").show();
+                    $$("btnAddData").hide();
+                    webix.message("Data id-"+ item.id +" terpilih " );
+                  }//,onItemClick: function (id, e, trg) { webix.message("Click on row: " + id.row + ", column: " + id.column); },
+                },
+                onClick: {
+                  delbtn: function (e, id, trg) {
+                      var itemId = id.row;
+                      webix.confirm({
+                          title: "Delete Confirmation",
+                          text: `Apakah ingin menghapus order id ${itemId}?`,
+                          callback: function (result) {
+                              if (result) {
+                                console.log(itemId)
+                                  webix.ajax().del("/delete-orders/" + itemId, function (text, data) {
+                                      if (data.json().status === "success") {
+                                          console.log("Data deleted from MongoDB:", itemId);
+                                          //$$("mygrid").remove(itemId);
+                                          location.reload();
+                                          webix.message({ type: "success", text: "Order deleted successfully" });
+                                      } else {
+                                          webix.message({ type: "error", text: "Error deleting order" });
+                                      }
+                                  });
+                              }
+                          }
+                      });
+                      return false; 
+                  }
+                } 
+              
+              
+            }
+        ]
+    });
+
+    isTotalCalculated=false
+
+      function loadData() {
+        webix.ajax().get("/get-orders", function (text, data) {
+          var orders = data.json();
+          $$("mygrid").parse(orders);
+          $$("btnEditData").hide();
+        });
+      }
+
+      function loadHarga() {
+        webix.ajax().get("/get-price", function (text, data) {
+            harga_loaded = data.json();
+        });
+      }
+
+      window.onload = loadHarga;
+
+      function loadPembulatan() {
+          var pembulatanObj = harga_loaded.find(harga_load => harga_load.paket === "Pembulatan");
+          var valuePembulatan = pembulatanObj ? parseInt(pembulatanObj.Harga) : 1;
+          return valuePembulatan;
+      }
+    
+
+      function calculateTotal(formValues) {
+          var total = 0;
+          var selectedPrice = harga_loaded.find(harga_load => harga_load.paket === formValues.paket);
+      
+          if (selectedPrice) {
+              total = formValues.berat * selectedPrice.Harga;
+          }
+      
+          var pembulatan = loadPembulatan();
+          pembulatan = parseInt(pembulatan); 
+          total = Math.ceil(total / pembulatan) * pembulatan;
+          console.log(total);
+          return total;
+      }
+    
+      webix.ready(function () {
+        loadData();
+        let isTotalCalculated = false;
+
+        $$("btnClear").attachEvent("onItemClick", function () {
+          $$("myform").clear();
+          $$("btnEditData").hide();
+          $$("btnAddData").show();
+          $$("myform").setValues({ id: null, tanggal: new Date() ,waktu: new Date()});
+        });
+        $$("btnEditData").attachEvent("onItemClick", function () {
+          var result = "";
+          var formValues = $$("myform").getValues();
+          result = $$("btnTotal").callEvent("onItemClick"); 
+          if (result === "status gagal") {return;}
+
+          formValues.nama = $$("nama").getValue();
+          if(formValues.nama == "") {
+            webix.message({ type: "error", text: "Kolom Nama harus diisi" }); 
+            return; 
+          } 
+
+          formValues.berat = $$("berat").getValue();
+          if (formValues.berat <= 0 || formValues.berat === null ) {
+            webix.message({ type: "error", text: "Kolom berat harus diisi" }); 
+            return;
+          }
+          formValues.berat = parseFloat($$("berat").getValue());
+
+          formValues.paket = $$("paket").getValue();
+          formValues.layanan = $$("layanan").getValue();
+          formValues.kontak = $$("kontak").getValue();
+          formValues.total = parseFloat($$("total").getValue());
+          
+          try {
+            var tanggal = new Date(formValues.tanggal);
+            var waktu = new Date(formValues.waktu);
+            var combinedDateTime = tanggal.getFullYear() + '-' + ('0' + (tanggal.getMonth() + 1)).slice(-2) + '-' + ('0' + tanggal.getDate()).slice(-2) + ' ' + ('0' + waktu.getHours()).slice(-2) + ':' + ('0' + waktu.getMinutes()).slice(-2) + ':' + ('0' + waktu.getSeconds()).slice(-2);
+            formValues.tanggal = combinedDateTime
+            delete formValues.waktu; 
+          }
+          catch(err) {
+            webix.message({ type: "error", text: `error combine date time ${err}` }); return; 
+          }
+
+          var orderId = formValues.id;
+
+          if (formValues.layanan == "antar"){
+              if(formValues.alamat == "" ){
+                webix.message({ type: "error", text: "alamat harus di isi untuk layanan antar " }); return; 
+              } else if (formValues.kontak == ""){
+                webix.message({ type: "error", text: "kontak harus di isi untuk layanan antar " }); return; 
+              }
+          } else {
+            formValues.alamat=""
+          }
+          var oldValue = $$("mygrid").getItem(orderId);
+          formValues.total = parseFloat($$("total").getValue());
+          formValues.berat = parseFloat($$("berat").getValue());
+            webix.confirm({
+                title: "Update Confirmation",
+                text: `Apakah Anda yakin ingin mengubah data ${orderId}?`,
+                callback: function (result) {
+                    if (result) {
+                        webix.ajax().headers({"Content-Type": "application/json"}).put("/edit-orders/" + orderId, formValues, function (text, data) {
+                            if (data.json().status === "success") {
+                                console.log("Data updated in MongoDB:", orderId);
+                                
+                                $$("btnEditData").hide();
+                                $$("btnAddData").show();
+                                $$("myform").clear();
+                                location.reload();
+                            } else if(data.json().status === "errormiss"){
+                              webix.message({ type: "error", text: "perbedaan ID pada editing" });
+                            } else{
+                              webix.message({ type: "error", text: "Error updating data in MongoDB" });
+                            }
+                        });
+                    }
+                }
+            });
+        });
+          
+      
+        $$("btnTotal").attachEvent("onItemClick", function () {
+          event.preventDefault();
+          var formValues = $$("myform").getValues();
+          formValues.paket = $$("paket").getValue();
+          formValues.berat = $$("berat").getValue();
+          
+          if (formValues.berat <= 0){
+            webix.message({ type: "error", text: "Kolom berat kosong atau tidak valid" });
+            return "status gagal";
+          } else {
+            var totall = calculateTotal(formValues);
+            $$("myform").setValues({ total: totall }, { berat: formValues.berat }, { paket: formValues.paket });
+            isTotalCalculated = true; // is it calc yet status
+          }
+          
+        });
+    
+        $$("btnAddData").attachEvent("onItemClick", function () {
+          var formValues = $$("myform").getValues();
+          
+          var result = "";
+          result = $$("btnTotal").callEvent("onItemClick"); 
+          if (result === "status gagal") {return;}
+          
+          formValues.nama = $$("nama").getValue();
+          if(formValues.nama == "") {
+            webix.message({ type: "error", text: "Kolom Nama harus diisi" }); 
+            return; 
+          } 
+
+          formValues.berat = $$("berat").getValue();
+          if (formValues.berat <= 0 || formValues.berat === null ) {
+            webix.message({ type: "error", text: "Kolom berat harus diisi" }); 
+            return;
+          }
+          formValues.berat = parseFloat($$("berat").getValue());
+
+          formValues.paket = $$("paket").getValue();
+          formValues.layanan = $$("layanan").getValue();
+          formValues.kontak = $$("kontak").getValue();
+          formValues.tanggal = new Date();
+          formValues.total = parseFloat($$("total").getValue());
+
+          if (formValues.layanan == "antar") {
+              if(formValues.alamat == "" ){
+                  webix.message({ type: "error", text: "Alamat harus diisi untuk layanan antar" }); 
+                  return null; 
+              } else if (formValues.kontak == ""){
+                  webix.message({ type: "error", text: "Kontak harus diisi untuk layanan antar" }); 
+                  return null; 
+              }
+          }
+          
+          delete formValues.waktu;
+
+          webix.ajax().headers({"Content-Type": "application/json"}).post("/add-orders", formValues, function (text, data) {
+              if (data.json().status === "success") {
+                  console.log("Data berhasil ditambahkan ", data.json().id);
+                  
+                  //formValues.id = data.json().id;
+                  //$$("mygrid").add(formValues); 
+                  isTotalCalculated = false;
+                  $$("myform").clear(); 
+                  location.reload();
+              } else {
+                  webix.message({ type: "error", text: "Error tambah order" });
+              }
+          });
+        });
+      
+
+      
+      
+      });
+    </script>
+    
+  </body>
+</html>

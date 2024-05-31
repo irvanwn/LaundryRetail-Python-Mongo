@@ -1,0 +1,23 @@
+Jenis paket
+- 6 jam     : Super Express
+- 1 Hari    : Express
+- 2 Hari    : Super
+- 3 Hari    : Regular
+
+Layanan
+- antar     : Pickup
+- ambil     : Deliver
+
+2 page :
+Masukan info cust
+ubah harga
+
+
+
+
+
+
+
+
+
+DINAMIS
