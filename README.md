@@ -5,8 +5,8 @@ Created a Point of Sale (POS) software as part of a mid-term project using Pytho
 ## Screenshots
 
 <p align="center">
-  <img src="https://github.com/irvanwn/TTS-KapitaSelekta/blob/main/project-image-preview/Screenshot%202024-05-31%20215535.jpg" alt="Dashboard main page" width="400"/>
-  <img src="https://github.com/irvanwn/TTS-KapitaSelekta/blob/main/project-image-preview/Screenshot%202024-05-31%20215553.jpg" alt="Setting page" width="400"/>
+  <img src="https://github.com/irvanwn/TTS-KapitaSelekta/blob/main/project-image-preview/Screenshot%202024-05-31%20215535.jpg" alt="Dashboard main page" width="500"/>
+  <img src="https://github.com/irvanwn/TTS-KapitaSelekta/blob/main/project-image-preview/Screenshot%202024-05-31%20215553.jpg" alt="Setting page" width="500"/>
 </p>
 
 ## Description
