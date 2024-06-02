@@ -3,6 +3,8 @@ from database import Database
 app = Flask(__name__)
 db = Database()
 
+# pages
+
 
 @app.route('/')
 def index():
@@ -13,6 +15,8 @@ def index():
 def settings():
     return render_template('setting.html')
 
+
+# price service
 
 @app.route('/get-price')
 def get_price():
@@ -35,6 +39,8 @@ def edit_price(paket):
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
+
+# order service
 
 @app.route('/get-orders', methods=['GET'])
 def get_orders():
